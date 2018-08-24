@@ -67,6 +67,7 @@ class RankedDownLoadAppCell: DownLoadAppCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initViews()
+        setNeedsUpdateConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -79,7 +80,6 @@ class RankedDownLoadAppCell: DownLoadAppCell {
     }
 
     override func updateConstraints() {
-        super.updateConstraints()
         NSLayoutConstraint.deactivate(labelStackView.constraints)
         NSLayoutConstraint.deactivate(appImageView.constraints)
         
@@ -102,13 +102,9 @@ class RankedDownLoadAppCell: DownLoadAppCell {
             appSimpleCommentLabel.leadingAnchor.constraint(equalTo: appNameLabel.leadingAnchor)
             
             ])
+        super.updateConstraints()
 
     }
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        // [멘토] 호출할 필요없음
-////        updateConstraintsIfNeeded()
-//    }
 
     override func initViews() {
         super.initViews()

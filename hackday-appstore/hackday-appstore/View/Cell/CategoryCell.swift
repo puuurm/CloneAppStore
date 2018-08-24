@@ -21,6 +21,7 @@ class CategoryListCell: UITableViewCell, ConfigurableCell {
         tableView = UITableView(frame: .zero, style: .plain)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         initViews()
+        setNeedsUpdateConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -43,9 +44,11 @@ class CategoryListCell: UITableViewCell, ConfigurableCell {
         self.cellModel = cellodel
     }
 
-    override func layoutSubviews() {
+    override func updateConstraints() {
         tableView.fillSuperview()
+        super.updateConstraints()
     }
+
 }
 
 extension CategoryListCell: UITableViewDataSource, UITableViewDelegate {
@@ -75,6 +78,7 @@ class CategoryCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         initViews()
+        setNeedsUpdateConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -97,9 +101,13 @@ class CategoryCell: UITableViewCell {
     }
 
     override func layoutSubviews() {
+        super.layoutSubviews()
+        object_setClass(imageView?.layer, RoundedLayer.self)
+    }
+
+    override func updateConstraints() {
         guard let imageView = imageView, let textLabel = textLabel else { return }
         contentView.subviews.forEach { $0.autoLayout }
-        object_setClass(imageView.layer, RoundedLayer.self)
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: imageLeadingConstant),
             imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
@@ -114,9 +122,6 @@ class CategoryCell: UITableViewCell {
             separatorLineView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             separatorLineView.leadingAnchor.constraint(equalTo: textLabel.leadingAnchor)
             ])
-    }
-
-    override func updateConstraints() {
         super.updateConstraints()
     }
 

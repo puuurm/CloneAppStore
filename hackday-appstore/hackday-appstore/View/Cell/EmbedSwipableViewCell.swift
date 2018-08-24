@@ -16,14 +16,16 @@ class EmbedSwipableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         swipableCollectionView.backgroundColor = UIColor.white
         contentView.addSubview(swipableCollectionView)
+        setNeedsUpdateConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func layoutSubviews() {
+    override func updateConstraints() {
         swipableCollectionView.fillSuperview()
+        super.updateConstraints()
     }
 
     func isLastCell(_ row: Int) -> Bool {

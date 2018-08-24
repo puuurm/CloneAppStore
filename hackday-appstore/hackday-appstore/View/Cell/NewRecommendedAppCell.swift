@@ -57,7 +57,7 @@ extension NewRecommendedAppCell: HorizontallySwipableCollectionViewDelegate {
 class DownLoadAppCell: UICollectionViewCell {
 
     // [멘토] lazy 키워드 사용하도록 : 매번 호출할 때마다 새로 만들어서 보내기 때문에 불필요한 동작이 발생될 뿐아니라, 설정한 값이 초기화되기 때문에 오동작할 수 있음
-    let appImageView: UIImageView = {
+    lazy var appImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -120,10 +120,15 @@ class DownLoadAppCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initViews()
+        setNeedsUpdateConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
     }
 
     func configure(model: (app: App, status: String)) {
@@ -136,13 +141,13 @@ class DownLoadAppCell: UICollectionViewCell {
             downloadButton.setTitle(model.status, for: .normal)
         }
         appImageView.image = model.app.resource?.appIcon()
+
         appNameLabel.text = model.app.info?.name
         appSimpleCommentLabel.text = model.app.info?.simpleComment
 
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func updateConstraints() {
         contentView.subviews.forEach { $0.autoLayout }
         NSLayoutConstraint.activate([
             appImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -167,6 +172,8 @@ class DownLoadAppCell: UICollectionViewCell {
             downloadButtonDeleteVersion.heightAnchor.constraint(equalToConstant: 20),
             downloadButtonDeleteVersion.widthAnchor.constraint(equalTo: downloadButtonDeleteVersion.heightAnchor, multiplier: 1)
             ])
+
+        super.updateConstraints()
     }
 
     func initViews() {

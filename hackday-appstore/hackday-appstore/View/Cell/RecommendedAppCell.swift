@@ -79,6 +79,7 @@ class RecommendedAppDetailCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initViews()
+        setNeedsUpdateConstraints()
     }
 
     func configure(model: (recommendedAppInfo: RecommendedApp , app: App)) {
@@ -88,13 +89,14 @@ class RecommendedAppDetailCell: UICollectionViewCell {
         appImageView.image = UIImage(named: model.recommendedAppInfo.bgImg!)
     }
 
-    // [멘토] layoutSubviews보다는 updateConstraints에 constraint를 설정. 이유는 공부하도록
     override func layoutSubviews() {
         super.layoutSubviews()
-        // [멘토] appImageView.layer.cornerRadius로 접근이 가능한데, 굳이 이렇게 사용한 이유는?
         object_setClass(appImageView.layer, RoundedLayer.self)
+    }
+    override func updateConstraints() {
         containerStackView!.fillSuperview(Constant(leading: 5, trailing: 0, top: 5, botton: 0))
         separatorLineView.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+        super.updateConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {

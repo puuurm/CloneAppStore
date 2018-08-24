@@ -35,15 +35,14 @@ class SectionHeaderView: UITableViewHeaderFooterView {
         contentView.addSubview(titleLabel)
         contentView.addSubview(showAllButton)
         showAllButton.addTarget(self, action: #selector(self.showAllButtonDidTap(_:)), for: .touchUpInside)
+        setNeedsUpdateConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
+    override func updateConstraints() {
         NSLayoutConstraint.activate([
             separatorLineView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             separatorLineView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -57,8 +56,9 @@ class SectionHeaderView: UITableViewHeaderFooterView {
             showAllButton.trailingAnchor.constraint(equalTo: separatorLineView.trailingAnchor),
             showAllButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor)
             ])
-    }
 
+        super.updateConstraints()
+    }
 
     func configure(title: String) {
         titleLabel.text = title
